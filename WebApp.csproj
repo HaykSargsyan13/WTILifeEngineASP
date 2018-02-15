@@ -1,0 +1,256 @@
+﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{820E14D2-CDF0-4364-BF46-C8EC4B512597}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebApplication8</RootNamespace>
+    <AssemblyName>WebApplication8</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\fonts\FontAwesome.otf" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\animated.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\bordered-pulled.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\core.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\fixed-width.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\font-awesome.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\icons.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\larger.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\list.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\mixins.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\path.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\rotated-flipped.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\screen-reader.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\stacked.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\less\variables.less" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\font-awesome.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_animated.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_bordered-pulled.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_core.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_fixed-width.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_icons.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_larger.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_list.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_mixins.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_path.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_rotated-flipped.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_screen-reader.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_stacked.scss" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\scss\_variables.scss" />
+    <Content Include="CssFiles\fonts\Linearicons-Free-v1.0.0\WebFont\Linearicons-Free.eot" />
+    <Content Include="CssFiles\fonts\Linearicons-Free-v1.0.0\WebFont\Linearicons-Free.ttf" />
+    <Content Include="CssFiles\fonts\Linearicons-Free-v1.0.0\WebFont\Linearicons-Free.woff" />
+    <Content Include="CssFiles\fonts\Linearicons-Free-v1.0.0\WebFont\Linearicons-Free.woff2" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-Black.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-BlackItalic.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-Bold.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-BoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-ExtraBold.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-ExtraBoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-ExtraLight.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-ExtraLightItalic.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-Italic.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-Light.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-LightItalic.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-Medium.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-MediumItalic.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-Regular.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-SemiBold.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-SemiBoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-Thin.ttf" />
+    <Content Include="CssFiles\fonts\montserrat\Montserrat-ThinItalic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-Black.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-BlackItalic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-Bold.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-BoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-ExtraBold.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-ExtraBoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-ExtraLight.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-ExtraLightItalic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-Italic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-Light.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-LightItalic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-Medium.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-MediumItalic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-Regular.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-SemiBold.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-SemiBoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-Thin.ttf" />
+    <Content Include="CssFiles\fonts\poppins\Poppins-ThinItalic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-Black.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-BlackItalic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-Bold.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-BoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-ExtraBold.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-ExtraBoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-ExtraLight.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-ExtraLightItalic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-Italic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-Light.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-LightItalic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-Medium.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-MediumItalic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-Regular.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-SemiBold.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-SemiBoldItalic.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-Thin.ttf" />
+    <Content Include="CssFiles\fonts\raleway\Raleway-ThinItalic.ttf" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap-grid.css.map" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap-grid.min.css.map" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap-reboot.css.map" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap.css.map" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <None Include="packages.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CssFiles\css\main.css" />
+    <Content Include="CssFiles\css\util.css" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\css\font-awesome.css" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="CssFiles\fonts\font-awesome-4.7.0\HELP-US-OUT.txt" />
+    <Content Include="CssFiles\fonts\Linearicons-Free-v1.0.0\icon-font.min.css" />
+    <Content Include="CssFiles\fonts\Linearicons-Free-v1.0.0\WebFont\Linearicons-Free.svg" />
+    <Content Include="CssFiles\fonts\montserrat\OFL.txt" />
+    <Content Include="CssFiles\fonts\raleway\OFL.txt" />
+    <Content Include="CssFiles\images\icons\favicon.ico" />
+    <Content Include="CssFiles\images\icons\icon-google.png" />
+    <Content Include="CssFiles\images\PageImg.jpg" />
+    <Content Include="CssFiles\images\White.jpg" />
+    <Content Include="CssFiles\js\main.js" />
+    <Content Include="CssFiles\vendor\animate\animate.css" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap.css" />
+    <Content Include="CssFiles\vendor\bootstrap\css\bootstrap.min.css" />
+    <Content Include="CssFiles\vendor\bootstrap\js\bootstrap.js" />
+    <Content Include="CssFiles\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="CssFiles\vendor\bootstrap\js\popper.js" />
+    <Content Include="CssFiles\vendor\bootstrap\js\popper.min.js" />
+    <Content Include="CssFiles\vendor\bootstrap\js\tooltip.js" />
+    <Content Include="CssFiles\vendor\css-hamburgers\hamburgers.css" />
+    <Content Include="CssFiles\vendor\css-hamburgers\hamburgers.min.css" />
+    <Content Include="CssFiles\vendor\jquery\jquery-3.2.1.min.js" />
+    <Content Include="CssFiles\vendor\select2\select2.css" />
+    <Content Include="CssFiles\vendor\select2\select2.js" />
+    <Content Include="CssFiles\vendor\select2\select2.min.css" />
+    <Content Include="CssFiles\vendor\select2\select2.min.js" />
+    <Content Include="LoginPage.aspx" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LoginPage.aspx.cs">
+      <DependentUpon>LoginPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LoginPage.aspx.designer.cs">
+      <DependentUpon>LoginPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>60355</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:60355/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
