@@ -2,31 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+
 using ASP.Models.ViewModels;
+using ASP.Models;
+using System.Security.Claims;
 
 namespace ASP.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<IdentityUser> userManager;
-        private SignInManager<IdentityUser> signInManager;
-
-        public AccountController(UserManager<IdentityUser> userMng , SignInManager<IdentityUser> singInMng)
-        {
-            signInManager = singInMng;
-            userManager = userMng;
-        }
+        private readonly DBContext db = new DBContext();
         [AllowAnonymous]
-        public ViewResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl)
         {
-            return View(new LoginViewModel
+            if (!User.Identity.IsAuthenticated)
+            { 
+                return View(new LoginViewModel
             {
                 ReturnUrl = returnUrl
             });
+            }
+            else
+            {
+                return Redirect("/Home/Index");
+            }
         }
         [HttpPost]
         [AllowAnonymous]
@@ -35,24 +40,42 @@ namespace ASP.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser user =
-                await userManager.FindByNameAsync(loginModel.Name);
-                if (user != null)
+                var account =  db.GetAccount(loginModel.Name, loginModel.Password);
+                if (account.Name == loginModel.Name && account.Password == loginModel.Password)
                 {
-                    await signInManager.SignOutAsync();
-                    if ((await signInManager.PasswordSignInAsync(user,
-                    loginModel.Password, false, false)).Succeeded)
-                    {
-                        return Redirect(loginModel?.ReturnUrl ?? "/Admin/Index");
-                    }
+                    await Authenticate(loginModel.Name);
+                    return Redirect("/Home/Index");
                 }
+                return View();
             }
             ModelState.AddModelError("", "Invalid name or password");
-            return View(loginModel);
+            return View();
         }
+
+
+        private async Task Authenticate(string userName)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+            };
+            await HttpContext.SignInAsync(
+    CookieAuthenticationDefaults.AuthenticationScheme,
+    new ClaimsPrincipal(claimsIdentity),
+    authProperties);
+        }
+
         public async Task<RedirectResult> Logout(string returnUrl = "/")
         {
-            await signInManager.SignOutAsync();
+            await HttpContext.SignOutAsync();
             return Redirect(returnUrl);
         }
     }
