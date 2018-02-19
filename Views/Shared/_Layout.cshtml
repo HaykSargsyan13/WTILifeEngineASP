@@ -3,21 +3,55 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" asp-href-include="lib/bootstrap/dist/css/*.min.css" />
     <title>@ViewBag.Title</title>
+    <style>
+        .input-validation-error {
+            border-color: red;
+            background-color: #fee;
+        }
+    </style>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js">
+    </script>
 </head>
-<body>
-    <div class="btn-group">
-            <button style="width:10%">Apple</button>
-        <br />
-            <button style="width:10%">Samsung</button>
-        <br />
-            <button style="width:10%">Sony</button>
-        <br />
-            <button style="width:10%">HTC</button>
+<body class="m-1 p-1">
+    <div class="bg-info p-2 row">
+        <div class="col">
+            <h4>@ViewBag.Title</h4>
         </div>
 
-        <div>
-            @RenderBody()
+
+        <div class="col-2">
+            <a class="btn btn-sm btn-primary"
+               asp-action="Logout" asp-controller="Account">Log Out</a>
         </div>
+    </div>
+ 
+        <ul class="menu">
+            <li>
+                <a class="btn btn-sm btn-primary"
+                   asp-action="Register" asp-controller="Log">Register</a>
+            </li>
+            <li>
+                <a class="btn btn-sm btn-primary"
+                   asp-action="About" asp-controller="Log">About</a>
+            </li>
+            <li>
+                <a class="btn btn-sm btn-primary"
+                   asp-action="Register" asp-controller="Log">Register</a>
+            </li>
+            <li>
+                <a class="btn btn-sm btn-primary"
+                   asp-action="About" asp-controller="Log">About</a>
+            </li>
+        </ul>
+
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-success">@TempData["message"]</div>
+    }
+    @RenderBody()
 </body>
 </html>
