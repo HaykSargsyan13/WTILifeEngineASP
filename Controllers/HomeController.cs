@@ -19,12 +19,13 @@ namespace ASP.Controllers
         {
             return View();
         }
-        public ActionResult Create()
+
+        private ActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult Create(LoginViewModel c)
+        private ActionResult Create(LoginViewModel c)
         {
             if (ModelState.IsValid)
             {
@@ -34,7 +35,7 @@ namespace ASP.Controllers
             return View(c);
         }
 
-        public ActionResult Edit(string name, string password)
+        private ActionResult Edit(string name, string password)
         {
             LoginViewModel c =  db.GetAccount(name, password);
             if (c == null)
@@ -42,7 +43,7 @@ namespace ASP.Controllers
             return View(c);
         }
         [HttpPost]
-        public ActionResult Edit(LoginViewModel c)
+        private ActionResult Edit(LoginViewModel c)
         {
             if (ModelState.IsValid)
             {

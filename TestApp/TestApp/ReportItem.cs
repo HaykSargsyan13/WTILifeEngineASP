@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace TestApp
 {
-    internal class ReportItem
+    public class ReportItem
     {
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public string AccountNo;
         public decimal TotalMarketValue;
         public decimal Cash;

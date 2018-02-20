@@ -33,6 +33,7 @@ namespace ASP.Controllers
                 return Redirect("/Home/Index");
             }
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -44,14 +45,13 @@ namespace ASP.Controllers
                 if (account.Name == loginModel.Name && account.Password == loginModel.Password)
                 {
                     await Authenticate(loginModel.Name);
-                    return Redirect("/Home/Index");
+                    return Redirect(loginModel.ReturnUrl);
                 }
                 return View();
             }
             ModelState.AddModelError("", "Invalid name or password");
             return View();
         }
-
 
         private async Task Authenticate(string userName)
         {

@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Timers;
 using Newtonsoft.Json;
 
 namespace TestApp
 {
-    internal class Program
+    internal class Prog
     {
-        private const string ReportPath = "/Report";
+            private const string ReportPath = "/Test";
 
-        private static readonly ReportItem[] Report =
-        {
+            private static readonly ReportItem[] Report =
+            {
             new ReportItem
             {
                 AccountNo = "DWVQ000610",
@@ -128,38 +129,42 @@ namespace TestApp
             },
         };
 
-        //private static void Main()
-        //{
-        //    var path = $"{ReportPath}/{DateTime.Today:yyyyMMdd}";
-        //    var data = JsonConvert.SerializeObject(Report);
+            public static void Main(/*object sender, ElapsedEventArgs elapsedEventArgs*/)
 
-        //    var result = SendHttpRequest(path, data);
 
-        //    Console.WriteLine(result);
-        //    Console.ReadLine();
-        //}
-
-        private static string SendHttpRequest(string path, string data)
         {
-            using (var client = new HttpClient(new HttpClientHandler
+                var path = $"{ReportPath}/Report/{DateTime.Today:yyyyMMdd}";
+
+                var data = JsonConvert.SerializeObject(Report);
+            //JsonConvert.DeserializeObject<ReportItem[]>()
+
+                var result = SendHttpRequest(path, data);
+
+                Console.WriteLine(result);
+                Console.ReadLine();
+            }
+
+            private static string SendHttpRequest(string path, string data)
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-            })
-            {
-                BaseAddress = new Uri("http://localhost/"),
-            })
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, path);
-                requestMessage.Headers.TryAddWithoutValidation("authkey", "P45a6pzCMKZQuFkWAkwL");
+                using (var client = new HttpClient(new HttpClientHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                })
+                {
+                    BaseAddress = new Uri("http://localhost:50698"),
+                })
+                {
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, path);
+                    requestMessage.Headers.TryAddWithoutValidation("authkey", "P45a6pzCMKZQuFkWAkwL");
+
                 requestMessage.Content = new StringContent(data);
 
-                var responseMessage = client.SendAsync(requestMessage).Result;
-                if (responseMessage == null)
-                    return null;
-
-                responseMessage.EnsureSuccessStatusCode();
-                return responseMessage.Content.ReadAsStringAsync().Result;
+                    var responseMessage = client.SendAsync(requestMessage).Result;
+                    if (responseMessage == null)
+                        return null;
+                    responseMessage.EnsureSuccessStatusCode();
+                    return responseMessage.Content.ReadAsStringAsync().Result;
+                }
             }
         }
     }
-}

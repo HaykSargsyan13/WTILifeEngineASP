@@ -13694,11 +13694,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Hayk\\Desktop\\ASP\\ASP.csproj",
+      "projectUniqueName": "C:\\Users\\Hayk\\Desktop\\WTILife\\ASP\\ASP.csproj",
       "projectName": "ASP",
-      "projectPath": "C:\\Users\\Hayk\\Desktop\\ASP\\ASP.csproj",
+      "projectPath": "C:\\Users\\Hayk\\Desktop\\WTILife\\ASP\\ASP.csproj",
       "packagesPath": "C:\\Users\\Hayk\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Hayk\\Desktop\\ASP\\obj\\",
+      "outputPath": "C:\\Users\\Hayk\\Desktop\\WTILife\\ASP\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
