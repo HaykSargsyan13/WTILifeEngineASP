@@ -240,7 +240,7 @@ iframe {
   margin-right:auto;
 }
 
-.input100 {
+.form-control {
   font-family: Montserrat-Bold;
   font-size: 15px;
   line-height: 1.2;
