@@ -3,18 +3,38 @@
     ViewBag.Title = "Log In";
     Layout = "_AdminLayout";
 }
-<div class="text-danger" asp-validation-summary="All"></div>
-<form asp-action="Login" asp-controller="Account" method="post">
-    <input type="hidden" asp-for="ReturnUrl" />
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <div><span asp-validation-for="Name" class="text-danger"></span></div>
-        <input asp-for="Name" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <div><span asp-validation-for="Password" class="text-danger"></span></div>
-        <input asp-for="Password" class="form-control" />
-    </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
-</form>
+
+<body>
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <form asp-action="Login" asp-controller="Account" method="post" ></form>
+        <div class="container-login100">
+            <div class="wrap-login100 p-t-190 p-b-30">
+                <form class="login100-form validate-form">
+
+                    <span class="login100-form-title p-t-20 p-b-45" style="color:black">
+                        WealthTech
+                    </span>
+
+                    <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
+                        <input class="input100" type="text" placeholder="UserName" asp-for="Name" /> <!--asp-for="Name"-->
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="wrap-input100 validate-input m-b-10" data-validate="Password is required">
+                        <input class="input100" type="password" placeholder="UserName" asp-for="Password" /> <!--asp-for="Password"-->
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                    </div>
+
+                    <div class="container-login100-form-btn p-t-10">
+                        <button class="login100-form-btn" type="submit">Log In</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+</body>
