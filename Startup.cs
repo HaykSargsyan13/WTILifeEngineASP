@@ -24,7 +24,7 @@ namespace ASP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
+            .AddCookie();
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();

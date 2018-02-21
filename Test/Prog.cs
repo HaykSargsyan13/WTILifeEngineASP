@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Timers;
 using Newtonsoft.Json;
+using ASP.Models;
 
 namespace TestApp
 {

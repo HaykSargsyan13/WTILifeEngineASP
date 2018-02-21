@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TestApp.ReportItem>
+﻿@using ASP.Models;
+@model IEnumerable<ReportItem>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -27,16 +28,16 @@
             <th>AccountNo</th>
             <th>TotalMarketValue</th>
             <th>Cash</th>
-            @foreach (var key in Model.ElementAt<TestApp.ReportItem>(0).Quantity.Keys)
+            @foreach (var key in Model.ElementAt<ReportItem>(0).Quantity.Keys)
             {
                 <th>Quantit-@key</th>
             }
-            @foreach (var key in Model.ElementAt<TestApp.ReportItem>(0).MarketValue.Keys)
+            @foreach (var key in Model.ElementAt<ReportItem>(0).MarketValue.Keys)
             {
                 <th>MarketValue-@key</th>
             }
             <th>PercentCash</th>
-            @foreach (var key in Model.ElementAt<TestApp.ReportItem>(0).Percent.Keys)
+            @foreach (var key in Model.ElementAt<ReportItem>(0).Percent.Keys)
             {
                 <th>Percent-@key</th>
             }
