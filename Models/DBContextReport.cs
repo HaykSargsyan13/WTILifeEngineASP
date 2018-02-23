@@ -22,10 +22,10 @@ namespace ASP.Models
             gridFS = new GridFSBucket(database);
         }
 
-        public async Task Create(ReportItem c , string name)
+        public async Task Create(IEnumerable<ReportItem> items , string name = "ReportItems")
         {
             var Reports = database.GetCollection<ReportItem>(name);
-            await Reports.InsertOneAsync(c);
+            await Reports.InsertManyAsync(items);
         }
 
         public async Task<IEnumerable<ReportItem>> GetReports(string date)

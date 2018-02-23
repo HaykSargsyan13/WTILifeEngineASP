@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
+using System;
 
 namespace ASP.Models
 {
@@ -25,5 +26,6 @@ namespace ASP.Models
         public decimal ActualIntlAlloc;
         public bool NeedsRebalance;
         public bool NeedsCashRebalance;
+        public DateTime Time = DateTime.Today;
     }
 }
