@@ -29,6 +29,12 @@ namespace ASP.Models
             get { return database.GetCollection<LoginViewModel>("Users"); }
         }
 
+        /// <summary>
+        /// Get Account from Db if User name and password is valid
+        /// </summary>
+        /// <param name="name">User Name</param>
+        /// <param name="password">User Password</param>
+        /// <returns>Returns <seealso cref="LoginViewModel"/></returns>
         public LoginViewModel GetAccount(string name, string password)
         {
             var builder = new FilterDefinitionBuilder<LoginViewModel>();

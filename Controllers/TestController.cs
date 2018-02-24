@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Timers;
 using ASP.Models;
+using ASP.Models.DB;
 using Newtonsoft.Json;
 
 using TestApp;
@@ -33,12 +34,20 @@ namespace ASP.Controllers
         private readonly DBContextReport db = new DBContextReport();
 
         #region Get Reports Request
+
+        /// <summary>Index is a method in the <seealso cref="TestController"/> class.
+        /// Which call the method <seealso cref="Prog.Main"/> to send the http Requests with Reports collection
+        /// </summary>
         [AllowAnonymous]
         public string Index(string id)
         {
             TestApp.Prog.Main();
             return "Send";
         }
+
+        /// <summary>Report is a method in the <seealso cref="TestController"/> class.
+        /// Which Get the http Requests with Reports collection and write it to a DataBase 
+        /// </summary>
         [AllowAnonymous]
         [HttpPost]
         public async Task<string>  Report()
@@ -61,13 +70,19 @@ namespace ASP.Controllers
         #endregion
 
         #region GetReports
+
+        /// <summary>GetReports is a Get method in the TestController class. Returns the view where user can send post request to get Reports
+        /// <para><seealso cref="TestController"/></para>
+        /// </summary>
         [HttpGet]
         public IActionResult GetReports()
         {
             return View();
         }
 
-        //Get Reports From DB
+        /// <summary>GetReports is a Post method with parametr <seealso cref="DateTime"/> in the TestController class. Returns the view where user can send post request to get Reports
+        /// <para><seealso cref="TestController"/></para>
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> GetReports(DateTime date)
         {
@@ -85,12 +100,18 @@ namespace ASP.Controllers
 
         #region Upload File
 
+        /// <summary>UploadFile is a Get method in the TestController class. Returns the view for uploading file
+        ///<para><seealso cref="TestController"/></para>
+        /// </summary>
         [HttpGet]
         public IActionResult UploadFile()
         {
             return View();
         }
 
+        /// <summary>UploadFile is a Post method in the TestController class. Writes Reports form file to DB
+        /// <para><seealso cref="TestController"/></para>
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
