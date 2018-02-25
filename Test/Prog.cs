@@ -133,7 +133,7 @@ namespace TestApp
             public static void Main(/*object sender, ElapsedEventArgs elapsedEventArgs*/)
 
 
-        {
+            {
                 var path = $"{ReportPath}/Report/{DateTime.Today:yyyyMMdd}";
 
                 var data = JsonConvert.SerializeObject(Report);

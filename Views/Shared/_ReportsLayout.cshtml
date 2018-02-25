@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+@model IEnumerable<ReportItem>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GetReports</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" asp-href-include="lib/bootstrap/dist/css/*.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    @if (Model != null && Model.Count() != 0)
+    {
+        <table class="table table-bordered table-striped table-sm">
+            <tr>
+                <th>AccountNo</th>
+                <th>Date</th>
+                <th>TotalMarketValue</th>
+                <th>Cash</th>
+                @foreach (var key in Model.ElementAt<ReportItem>(0).Quantity.Keys)
+                {
+                    <th>Quantit-@key</th>
+                }
+                @foreach (var key in Model.ElementAt<ReportItem>(0).MarketValue.Keys)
+                {
+                    <th>MarketValue-@key</th>
+                }
+                <th>PercentCash</th>
+                @foreach (var key in Model.ElementAt<ReportItem>(0).Percent.Keys)
+                {
+                    <th>Percent-@key</th>
+                }
+                <th>TargetCashAlloc</th>
+                <th>TargetRiskScoreUs</th>
+                <th>TargetRiskScoreIntl</th>
+                <th>TargetIntlAlloc</th>
+                <th>ActualCashAlloc</th>
+                <th>ActualRiskScoreUS</th>
+                <th>ActualRiskScoreIntl</th>
+                <th>ActualIntlAlloc</th>
+                <th>NeedsRebalance</th>
+                <th>NeedsCashRebalance</th>
+
+
+
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.AccountNo</td>
+                    <td>@item.Time.ToShortDateString()</td>
+                    <td>$@item.TotalMarketValue</td>
+                    <td>$@item.Cash</td>
+
+                    @foreach (var value in item.Quantity.Values)
+                    {
+                        <td>@value</td>
+                    }
+
+                    @foreach (var value in item.MarketValue.Values)
+                    {
+                        <td>$@value</td>
+                    }
+
+
+                    <td>@item.PercentCash%</td>
+                    @foreach (var value in item.Percent.Values)
+                    {
+                        <td>@value%</td>
+                    }
+                    <td>@item.TargetCashAlloc</td>
+                    <td>@item.TargetRiskScoreUS</td>
+                    <td>@item.TargetRiskScoreIntl</td>
+                    <td>@item.TargetIntlAlloc</td>
+                    <td>@item.ActualCashAlloc</td>
+                    <td>@item.ActualRiskScoreUS</td>
+                    <td>@item.ActualRiskScoreIntl</td>
+                    <td>@item.ActualIntlAlloc</td>
+                    <td>@item.NeedsRebalance</td>
+                    <td>@item.NeedsCashRebalance</td>
+
+
+                </tr>
+            }
+        </table>
+    }
+</body>
+</html>

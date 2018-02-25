@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using ASP.Models.ViewModels;
 
-namespace ASP.Models
+namespace ASP.Models.DB
 {
     public class DBContext
     {

@@ -62,6 +62,10 @@ namespace ASP.Controllers
                 var path = RouteData.Values["Id"].ToString();
 
                 ReportItem[] items = JsonConvert.DeserializeObject<ReportItem[]>(data);
+                foreach (var item in items)
+                {
+                    item.Time = DateTime.Today.Date;
+                }
                 await db.Create(items, path);
             }
             return "Ok";
@@ -94,6 +98,30 @@ namespace ASP.Controllers
             IEnumerable<ReportItem> items = await db.GetReports(s);
 
             return View(items);
+        }
+
+        #endregion
+
+        #region Get Reports for one Account
+        [HttpGet]
+        public IActionResult AccountReports()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Post method which get Reports from db for selectid Account
+        /// </summary>
+        /// <param name="AccountNo">Account number</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> AccountReports(string AccountNo)
+        {
+            DateTime dt = DateTime.Now;
+            var list =  await db.AccountReports(AccountNo);
+            TimeSpan time = DateTime.Now - dt;
+            ViewBag.timespan = time;
+            return View(list);
         }
 
         #endregion
@@ -176,7 +204,7 @@ namespace ASP.Controllers
                         ActualIntlAlloc = decimal.Parse(data[23]),
                         NeedsRebalance = bool.Parse(data[24]),
                         NeedsCashRebalance = bool.Parse(data[25]),
-                        Time = new DateTime(2018, 2, 16)
+                        Time = reportDate
 
                     };
                     items[i - 1] = item;
@@ -187,6 +215,7 @@ namespace ASP.Controllers
             
             return Ok(new { count = 1, size , time });
         }
+
         #endregion
     }
 }
