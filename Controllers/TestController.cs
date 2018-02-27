@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using System.Timers;
+﻿using ASP.Infrastructure;
 using ASP.Models;
 using ASP.Models.DB;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-using TestApp;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
-using NPOI.SS.UserModel;
-using NPOI.HSSF.UserModel;
-using NPOI.XSSF.UserModel;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ASP.Controllers
 {
@@ -24,10 +23,13 @@ namespace ASP.Controllers
     public class TestController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
+        private static readonly SyncQueue<Action> ActionsQueue = new SyncQueue<Action>();
+        private static readonly SemaphoreSlim ThreadsSem = new SemaphoreSlim(Environment.ProcessorCount * 2);
 
         public TestController(IHostingEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
+            ActionsQueue.NewItem += ActionsQueue_OnNewItem;
         }
 
         private readonly string key = "P45a6pzCMKZQuFkWAkwL";
@@ -57,16 +59,19 @@ namespace ASP.Controllers
                 string data;
                 using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
                 {
-                   data= await reader.ReadToEndAsync();
+                    data = await reader.ReadToEndAsync();
                 }
                 var path = RouteData.Values["Id"].ToString();
-
                 ReportItem[] items = JsonConvert.DeserializeObject<ReportItem[]>(data);
                 foreach (var item in items)
                 {
                     item.Time = DateTime.Today.Date;
                 }
-                await db.Create(items, path);
+                var action = new Action(() =>
+                {
+                    db.Create(items, path);
+                });
+                ActionsQueue.Enqueue(action);
             }
             return "Ok";
         }
@@ -103,6 +108,10 @@ namespace ASP.Controllers
         #endregion
 
         #region Get Reports for one Account
+        /// <summary>
+        /// Get method which returns View for serch
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult AccountReports()
         {
@@ -145,7 +154,7 @@ namespace ASP.Controllers
         {
 
             DateTime dt = DateTime.Now;
-
+            
            var name = file.FileName;
            name = name.Substring(name.IndexOf('_')+1);
            name = name.Substring(0, name.LastIndexOf('.'));
@@ -158,64 +167,117 @@ namespace ASP.Controllers
             {
                 await file.CopyToAsync(stream);
             }
-            ReportItem[] items;
-            using (var streamReader = System.IO.File.OpenText(path))
-            {
-                var content = streamReader.ReadToEnd().Replace("\"", "");
-                var lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                items = new ReportItem[lines.Length - 3];
-                for (int i = 1; i < lines.Length - 2; i++)
+                List<ReportItem> items = new List<ReportItem>();
+                using (var streamReader = System.IO.File.OpenText(path))
                 {
-                    var data = lines[i].Split(new[] { "," }, StringSplitOptions.None);
-                    var item = new ReportItem
+                    string line;
+                    while ((line = streamReader.ReadLine()) != null)
                     {
-                        AccountNo = data[0],
-                        TotalMarketValue = decimal.Parse(data[1].Trim('$')),
-                        Cash = decimal.Parse(data[2].Trim('$')),
-                        Quantity = new Dictionary<string, decimal>
-                        {
-                            {"VTI" ,  decimal.Parse(data[3])},
-                            {"BND" ,  decimal.Parse(data[4])},
-                            {"VXUS" ,  decimal.Parse(data[5])},
-                            {"BNDX" ,  decimal.Parse(data[6])},
-                        },
-                        MarketValue = new Dictionary<string, decimal>
-                        {
-                            {"VTI" ,  decimal.Parse(data[7].Trim('$'))},
-                            {"BND" ,  decimal.Parse(data[8].Trim('$'))},
-                            {"VXUS" ,  decimal.Parse(data[9].Trim('$'))},
-                            {"BNDX" ,  decimal.Parse(data[10].Trim('$'))},
-                        },
-                        PercentCash = decimal.Parse(data[11].Trim('%')),
-                        Percent = new Dictionary<string, decimal>
-                        {
-                            {"VTI" ,  decimal.Parse(data[12].Trim('%'))},
-                            {"BND" ,  decimal.Parse(data[13].Trim('%'))},
-                            {"VXUS" ,  decimal.Parse(data[14].Trim('%'))},
-                            {"BNDX" ,  decimal.Parse(data[15].Trim('%'))},
-                        },
-                        TargetCashAlloc = decimal.Parse(data[16]),
-                        TargetRiskScoreUS = decimal.Parse(data[17]),
-                        TargetRiskScoreIntl = decimal.Parse(data[18]),
-                        TargetIntlAlloc = decimal.Parse(data[19]),
-                        ActualCashAlloc = decimal.Parse(data[20]),
-                        ActualRiskScoreUS = decimal.Parse(data[21]),
-                        ActualRiskScoreIntl = decimal.Parse(data[22]),
-                        ActualIntlAlloc = decimal.Parse(data[23]),
-                        NeedsRebalance = bool.Parse(data[24]),
-                        NeedsCashRebalance = bool.Parse(data[25]),
-                        Time = reportDate
+                        var data = line.Split(new[] { "," }, StringSplitOptions.None);
+                        data = data.Select(s => s.Trim('\"', '$', '%')).ToArray();
 
-                    };
-                    items[i - 1] = item;
+                        string accauntNo = data[0];
+                        if (string.IsNullOrEmpty(accauntNo) || accauntNo == "AccountNo")
+                            continue;
+                        decimal.TryParse(data[1], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal totalMarketValue);
+                        decimal.TryParse(data[2], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal cash);
+                        decimal.TryParse(data[3], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal quantity1);
+                        decimal.TryParse(data[4], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal quantity2);
+                        decimal.TryParse(data[5], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal quantity3);
+                        decimal.TryParse(data[6], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal quantity4);
+                        decimal.TryParse(data[7], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal marketValue1);
+                        decimal.TryParse(data[8], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal marketValue2);
+                        decimal.TryParse(data[9], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal marketValue3);
+                        decimal.TryParse(data[10], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal marketValue4);
+                        decimal.TryParse(data[11], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percentCash);
+                        decimal.TryParse(data[12], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percent1);
+                        decimal.TryParse(data[13], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percent2);
+                        decimal.TryParse(data[14], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percent3);
+                        decimal.TryParse(data[15], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percent4);
+                        decimal.TryParse(data[16], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal targetCashAlloc);
+                        decimal.TryParse(data[17], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal targetRiskScoreUS);
+                        decimal.TryParse(data[18], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal targetRiskScoreIntl);
+                        decimal.TryParse(data[19], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal targetIntlAlloc);
+                        decimal.TryParse(data[20], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal actualCashAlloc);
+                        decimal.TryParse(data[21], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal actualRiskScoreUS);
+                        decimal.TryParse(data[22], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal actualRiskScoreIntl);
+                        decimal.TryParse(data[23], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal actualIntlAlloc);
+                        bool.TryParse(data[24], out bool needsRebalance);
+                        bool.TryParse(data[25], out bool needsCashRebalance);
+
+
+
+                        var item = new ReportItem
+                        {
+                            AccountNo = accauntNo,
+                            TotalMarketValue = totalMarketValue,
+                            Cash = cash,
+                            Quantity = new Dictionary<string, decimal>
+                        {
+                            {"VTI" ,  quantity1},
+                            {"BND" ,  quantity2},
+                            {"VXUS" ,  quantity3},
+                            {"BNDX" ,  quantity4},
+                        },
+                            MarketValue = new Dictionary<string, decimal>
+                        {
+                            {"VTI" ,  marketValue1},
+                            {"BND" ,  marketValue2},
+                            {"VXUS" ,  marketValue3},
+                            {"BNDX" ,  marketValue4},
+                        },
+                            PercentCash = percentCash,
+                            Percent = new Dictionary<string, decimal>
+                        {
+                            {"VTI" ,  percent1 },
+                            {"BND" ,  percent2 },
+                            {"VXUS" ,  percent3},
+                            {"BNDX" ,  percent4},
+                        },
+                            TargetCashAlloc = targetCashAlloc,
+                            TargetRiskScoreUS = targetRiskScoreUS,
+                            TargetRiskScoreIntl = targetRiskScoreIntl,
+                            TargetIntlAlloc = targetIntlAlloc,
+                            ActualCashAlloc = actualCashAlloc,
+                            ActualRiskScoreUS = actualRiskScoreUS,
+                            ActualRiskScoreIntl = actualRiskScoreIntl,
+                            ActualIntlAlloc = actualIntlAlloc,
+                            NeedsRebalance = needsRebalance,
+                            NeedsCashRebalance = needsCashRebalance,
+                            Time = reportDate
+
+                        };
+                        items.Add(item);
+                    }
                 }
-            }
-            await db.Create(items , $"{reportDate:yyyyMMdd}");
+            var action = new Action(() =>
+            {
+                db.Create(items, $"{reportDate:yyyyMMdd}");
+            });
+              //  db.Create(items, $"{reportDate:yyyyMMdd}");
             TimeSpan time = DateTime.Now - dt;
-            
-            return Ok(new { count = 1, size , time });
+            ActionsQueue.Enqueue(action);
+            return Ok(new { count = 1, size , time  });
         }
 
         #endregion
+
+        private void ActionsQueue_OnNewItem(object sender, Action action)
+        {
+            var act = action;
+
+            ThreadsSem.Wait();
+            Task.Run(() =>
+            {
+                try
+                {
+                    act();
+                }
+                finally
+                {
+                    ThreadsSem.Release();
+                }
+            });
+        }
     }
 }

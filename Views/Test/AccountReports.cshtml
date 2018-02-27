@@ -4,7 +4,11 @@
 }
 <body>
     <h2>@ViewData["Title"]</h2>
+    @if(ViewBag.timespan != null)
+    {
+        <div>@ViewBag.timespan</div>
 
+    }
     <form asp-action="AccountReports" asp-controller="Test">
         <div>
             <div class="form-group">

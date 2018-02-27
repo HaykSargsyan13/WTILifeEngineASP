@@ -1,11 +1,12 @@
-﻿using MongoDB.Bson;
+﻿using ASP.Infrastructure;
+
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TestApp;
 
 namespace ASP.Models.DB
 {
@@ -35,23 +36,41 @@ namespace ASP.Models.DB
         /// <param name="items"><seealso cref="ReportItem"/> collection </param>
         /// <param name="name">Collection name in DB</param>
         /// <returns></returns>
-        public async Task Create(IEnumerable<ReportItem> items , string name = "ReportItems")
+        public void Create(IEnumerable<ReportItem> items , string name = "ReportItems")
         {
-            int i = 0;
-            while (database.Contains(name))
-            {
-                string temp;
-                if (name.Contains('('))
-                    temp = name.Substring(0, name.IndexOf('('));
-                else
-                    temp = name;
-                i++;
-                temp += $" ({i})";
-                name = temp;
-            }
             var Reports = database.GetCollection<ReportItem>(name);
-            await Reports.InsertManyAsync(items);
-            //await AddAccountsObjects(items, name);
+            List<ReportItem> list = new List<ReportItem>();
+            if (database.Contains(name))
+            {
+                foreach (var item in items)
+                {
+                    var filter = Builders<ReportItem>.Filter.Eq(doc => doc.AccountNo, item.AccountNo);
+                    var account = Reports.Find(doc => doc.AccountNo == item.AccountNo).FirstOrDefault();
+                    if (account != null)
+                    {
+                        item.Id = account.Id;
+                        ReplaceOneResult replaceOneResult = Reports.ReplaceOne(
+                            new BsonDocument("_id", new ObjectId(account.Id)), item, new UpdateOptions() { IsUpsert = true });
+                    }
+                    else
+                    {
+                        list.Add(item);
+                    }
+                }
+                if (list.Count > 0)
+                    Reports.InsertMany(list);
+            }
+            else if (items.Count() > 0)
+            {
+                try
+                {
+                    Reports.InsertMany(items);
+                }
+                catch 
+                {
+
+                }
+            }
         }
 
         /// <summary>
@@ -68,7 +87,7 @@ namespace ASP.Models.DB
                 if (name == _dbAccounts)
                     continue;
                 var reportCollection = database.GetCollection<ReportItem>(name);
-                var reportItem = await reportCollection.Find(x => x.AccountNo == accountNo).FirstAsync();
+                var reportItem = await reportCollection.Find(x => x.AccountNo == accountNo).FirstOrDefaultAsync();
                 if (reportItem != null)
                     list.Add(reportItem);
             }
@@ -137,42 +156,6 @@ namespace ASP.Models.DB
             var builder = new FilterDefinitionBuilder<ReportItem>();
             var filter = builder.Empty;
             return await Reports.Find(filter).ToListAsync();
-        }
-    }
-
-    public static class Extension
-    {
-        /// <summary>
-        /// Extension method which determines whether a collection name is in DB or not
-        /// </summary>
-        /// <returns></returns>
-        public static bool Contains(this IMongoDatabase db, string collectionName)
-        {
-            List<string> collectionNames = new List<string>();
-
-            foreach (BsonDocument collection in db.ListCollectionsAsync().Result.ToListAsync<BsonDocument>().Result)
-            {
-                string name = collection["name"].AsString;
-                collectionNames.Add(name);
-            }
-            return collectionNames.Contains(collectionName);
-        }
-
-        /// <summary>
-        /// Extension method which get all collection names in DB
-        /// </summary>
-        /// <param name="db">Collection</param>
-        /// <returns></returns>
-        public static List<string> CollectionNames(this IMongoDatabase db)
-        {
-            List<string> collectionNames = new List<string>();
-
-            foreach (BsonDocument collection in db.ListCollectionsAsync().Result.ToListAsync<BsonDocument>().Result)
-            {
-                string name = collection["name"].AsString;
-                collectionNames.Add(name);
-            }
-            return collectionNames;
         }
     }
 }
