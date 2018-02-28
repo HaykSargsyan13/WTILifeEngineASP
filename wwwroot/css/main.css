@@ -1551,8 +1551,7 @@ label.control-label {
 }
 
 .wrap-login100 {
-    width: 300px;
-    height: 200px;
+    width: 25%;
     margin: 3em auto;
     background-color: #fff;
     padding: 2em 1em;
@@ -1568,9 +1567,10 @@ label.control-label {
         padding: 0em 0.9em 1em;
     }
 
+
 .wrap-input100 {
-    border: 1px solid #E9E9E9;
-    margin-bottom: 1em;
+    border: 2px solid #E9E9E9;
+    margin-top: 2em;
     padding: 0.5em 1em;
 }
 
@@ -1587,17 +1587,21 @@ label.control-label {
         font-family: 'Muli-Regular';
     }
 
-.login-do input[type="submit"] {
-    border: none;
-    outline: none;
-    font-size: 1em;
-    padding: 0.5em 1em;
-    color: #fff;
-    width: 100%;
-    -webkit-appearance: none;
-    cursor: pointer;
-    background: none;
+.login-do {
+    width: 300px;
+    margin-left: -14px;
 }
+
+    .login-do input[type="submit"] {
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding: 0.5em 1em;
+        color: #fff;
+        width: 100%;
+        -webkit-appearance: none;
+        background: none;
+    }
 
 .login-do a {
     font-size: 0.9em;
@@ -1716,7 +1720,7 @@ label.control-label {
     line-height: 1.5;
     color: #e0e0e0;
     width: 100%;
-    height: 50px;
+    height: 40px;
     border-radius: 0px;
     background: #d95463;
     display: -webkit-box;
@@ -1754,6 +1758,7 @@ label.control-label {
 
 .login-sub {
     background: #1abc9c;
+    width: 120px;
 }
 
     .login-sub:before {
@@ -2383,7 +2388,7 @@ tr.table-row {
     }
 /*--footer--*/
 .copy-right {
-    padding-top: 5em;
+    padding-top: 3em;
     text-align: center;
 }
 
@@ -2494,8 +2499,7 @@ tr.table-row {
     }
     /*--sign--*/
     .wrap-login100 {
-        width: 200px;
-        height: 200px;
+        width: 53%;
     }
 
     .profile-bottom {
@@ -2934,8 +2938,7 @@ tr.table-row {
     }
     /*--sign--*/
     .wrap-login100 {
-        width: 200px;
-        height: 200px;
+        width: 80%;
     }
 
     .container-login100 {
@@ -3225,13 +3228,13 @@ tr.table-row {
     }
     /*--sign--*/
     .wrap-login100 {
-        width: 180px;
-        height: 280px;
+        width: 94%;
+        margin: 1.5em auto;
+        padding: 1em 0;
     }
 
     .container-login100 {
-        width: 280px;
-        height: 180px;
+        padding: 2em 0 0;
     }
 
         .container-login100 h1 {
@@ -3277,6 +3280,53 @@ tr.table-row {
         padding: 0;
     }
 
+    .hvr-shutter-in-horizontal {
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -moz-osx-font-smoothing: grayscale;
+        position: relative;
+        background: #d95459;
+        -webkit-transition-property: color;
+        transition-property: color;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+
+        .hvr-shutter-in-horizontal:before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1abc9c;
+            -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+            -webkit-transform-origin: 50%;
+            transform-origin: 50%;
+            -webkit-transition-property: transform;
+            transition-property: transform;
+            -webkit-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+            -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+
+        .hvr-shutter-in-horizontal:hover, .hvr-shutter-in-horizontal:focus, .hvr-shutter-in-horizontal:active {
+            color: white;
+        }
+
+            .hvr-shutter-in-horizontal:hover:before, .hvr-shutter-in-horizontal:focus:before, .hvr-shutter-in-horizontal:active:before {
+                -webkit-transform: scaleX(0);
+                transform: scaleX(0);
+            }
+
     ul.dropdown-menu.dropdown-menu-right {
         left: -1em;
         top: 2.5em;
@@ -3302,7 +3352,7 @@ tr.table-row {
         font-size: 12px;
     }
 
-    .login-do input[type="submit"] {
+    .login-do {
         font-size: 0.9em;
     }
 
