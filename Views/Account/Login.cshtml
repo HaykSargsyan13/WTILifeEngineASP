@@ -4,37 +4,53 @@
     Layout = null;
 }
 <head>
+    <title>LoginPageASP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="WealthTech Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
     <link rel="stylesheet" href="~/css/main.css" />
     <link rel="stylesheet" href="~/css/util.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.css" />
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.nicescroll.js"></script>
+    <script src="~/lib/jquery/src/ajax/script.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 </head>
 
 <body>
-   <div class="container-login100">
+    <div class="container-login100">
         <h1><a href="index.html">WealthTech </a></h1>
-        <div class="wrap-login100 p-t-190 p-b-30">
+        <div class="wrap-login100">
             <div class="text-danger" asp-validation-summary="All">
-                <form asp-action="Login" asp-controller="Account" method="post" >
-
-                    <div class="wrap-input100 validate-input m-b-10" data-validate="Username is required">
-                        <input class="form-control" type="text" placeholder="Email" asp-for="Name" />
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <img class="fa fa-envelope" src="~/images/ImgMail.png" height="12" width="16" />
-                        </span>
-                    </div>
-                    <div class="wrap-input100 validate-input m-b-10" data-validate="Password is required">
-                        <input class="form-control" type="password" placeholder="Password" asp-for="Password" />
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <img class="fa fa-lock" src="~/images/lock2.png" height="16" width="16" />
-                        </span>
-                    </div>
-
-                    <div class="container-login100-form-btn p-t-10">
-                        <button class="login100-form-btn" type="submit">Log In</button>
+                <form asp-action="Login" asp-controller="Account" method="post">
+                    <div class="col-md-6">
+                        <div class="wrap-input100 wrap1" data-validate="Username is required">
+                            <input class="form-control" type="text" placeholder="Email" asp-for="Name" />
+                            <span class="focus-input100"></span>
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <div class="wrap-input100 " data-validate="Password is required">
+                            <input class="form-control" type="password" placeholder="Password" asp-for="Password" />
+                            <span class="focus-input100"></span>
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        <div class="col-md-6 p-t-25">
+                            <label class="hvr-shutter-in-horizontal login-sub">
+                                <button class="login100-form-btn" type="submit">Log In</button>
+                            </label>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
+    </div>
+    <div class="copy-right">
+        <p> &copy; 2018 WealthTech. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
     </div>
 </body>
