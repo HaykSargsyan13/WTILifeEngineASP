@@ -54,6 +54,28 @@ namespace ASP.Models.DB
 
         }
 
+        /// <summary>
+        /// Create new user
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public async Task<bool> Create(LoginViewModel c)
+        {
+            var builder = new FilterDefinitionBuilder<LoginViewModel>();
+            var filter = builder.Empty;
+            if (!String.IsNullOrWhiteSpace(c.Name))
+            {
+                filter = filter & builder.Eq("Name", c.Name);
+            }
+            LoginViewModel temp = Accounts.Find(filter).FirstOrDefault();
+            if (String.IsNullOrEmpty(temp?.Name))
+            {
+                await Accounts.InsertOneAsync(c);
+                return true;
+            }
+            return false;
+        }
+
         //private async Task<IEnumerable<LoginViewModel>> GetAccounts(string userName, string password)
         //{
         //    // строитель фильтров
@@ -76,10 +98,7 @@ namespace ASP.Models.DB
         //    await Accounts.FindAsync(new BsonDocument("_id", new ObjectId(id)));
         //}
 
-        //private async Task Create(LoginViewModel c)
-        //{
-        //    await Accounts.InsertOneAsync(c);
-        //}
+
 
         //private async Task Update(LoginViewModel c)
         //{

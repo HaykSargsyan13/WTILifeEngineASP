@@ -21,9 +21,16 @@ namespace ASP.Controllers
             return View();
         }
 
-        private ActionResult Create()
+        [AllowAnonymous]
+        public async Task<ActionResult> Create()
         {
-            return View();
+            LoginViewModel admin = new LoginViewModel
+            {
+                Name = "admin",
+                Password = "admin"
+            };
+            bool success = await db.Create(admin);
+            return Ok(success ? "success" : "faild");
         }
         [HttpPost]
         private ActionResult Create(LoginViewModel c)

@@ -3,5 +3,27 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>Register</h2>
+<script type="text/javascript">
+        function ajaxTest() {
+            console.log("Enter Method");
+            $.ajax({
+                type: "POST",
+                url: '/Log/Post',
+                contentType: "application/json; charset=uft-8",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
 
+                },
+                dataType: "json"
+
+            }).done(function (data) {
+                console.log(data.result);
+
+            })
+
+        }
+</script>
+<form method="post">
+    <input type="button" value="Ajax Test" class="btn btn-default" onclick="ajaxTest();" />
+</form>

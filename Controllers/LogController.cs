@@ -13,9 +13,15 @@ namespace ASP.Controllers
     {
         private readonly DBContextReport db = new DBContextReport();
         
+        [ValidateAntiForgeryToken]
+        public IActionResult Post()
+        {
+            return new JsonResult("Hello");
+        }
+
         public IActionResult Register()
         {
-                return Content(User.Identity.Name);
+            return View();
         }
         public IActionResult About()
         {

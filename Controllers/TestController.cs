@@ -130,6 +130,7 @@ namespace ASP.Controllers
             var list =  await db.AccountReports(AccountNo);
             TimeSpan time = DateTime.Now - dt;
             ViewBag.timespan = time;
+            //return new JsonResult(list);
             return View(list);
         }
 

@@ -20,6 +20,7 @@ namespace ASP
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie();
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();

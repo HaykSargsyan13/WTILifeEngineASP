@@ -150,11 +150,12 @@ namespace ASP.Models.DB
         /// </summary>
         /// <param name="date"><seealso cref="DateTime"/> in <seealso cref="string"/> format</param>
         /// <returns><seealso cref="IEnumerable{ReportItem}"/></returns>
-        public async Task<IEnumerable<ReportItem>> GetReports(string date/*, FilterDefinition<ReportItem> filter=null*/)
+        public async Task<IEnumerable<ReportItem>> GetReports(string date)
         {
             var Reports = database.GetCollection<ReportItem>(date);
             var builder = new FilterDefinitionBuilder<ReportItem>();
             var filter = builder.Empty;
+            long count = Reports.Count(filter);
             return await Reports.Find(filter).ToListAsync();
         }
     }

@@ -2,9 +2,10 @@
     ViewData["Title"] = "Account Reports";
     Layout = "_ReportsLayout";
 }
+
 <body>
     <h2>@ViewData["Title"]</h2>
-    @if(ViewBag.timespan != null)
+    @if (ViewBag.timespan != null)
     {
         <div>@ViewBag.timespan</div>
 
@@ -16,7 +17,7 @@
                 <input id="AccountNo" name="AccountNo" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Find" class="btn btn-default" />
+                <input type="submit" value="Find" class="btn btn-default"/>
             </div>
         </div>
     </form>
