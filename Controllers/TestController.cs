@@ -151,9 +151,9 @@ namespace ASP.Controllers
         /// <para><seealso cref="TestController"/></para>
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public IActionResult UploadFile(IFormFile file)
         {
-
+            
             DateTime dt = DateTime.Now;
             
            var name = file.FileName;
@@ -162,14 +162,8 @@ namespace ASP.Controllers
            name = name.Replace("_", "-");
            DateTime reportDate = DateTime.Parse(name);
             long size = file.Length;
-            var path = Path.Combine(_hostingEnvironment.WebRootPath, "data" , file.FileName);
-            
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
                 List<ReportItem> items = new List<ReportItem>();
-                using (var streamReader = System.IO.File.OpenText(path))
+                using (var streamReader =new StreamReader(file.OpenReadStream()))// System.IO.File.OpenText(path))
                 {
                     string line;
                     while ((line = streamReader.ReadLine()) != null)
