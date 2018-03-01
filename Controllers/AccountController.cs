@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 
 using ASP.Models.ViewModels;
-using ASP.Models;
+using ASP.Models.DB;
 using System.Security.Claims;
 
 namespace ASP.Controllers
@@ -18,6 +18,12 @@ namespace ASP.Controllers
     public class AccountController : Controller
     {
         private readonly DBContext db = new DBContext();
+
+        /// <summary>
+        /// Login is Get method which returns Login view if user not autorized otherways Home view
+        /// </summary>
+        /// <param name="returnUrl">Url after login</param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -34,6 +40,11 @@ namespace ASP.Controllers
             }
         }
 
+        /// <summary>
+        /// Post method for Login
+        /// </summary>
+        /// <param name="loginModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

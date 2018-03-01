@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using ASP.Models.ViewModels;
 
-namespace ASP.Models
+namespace ASP.Models.DB
 {
     public class DBContext
     {
@@ -29,6 +29,12 @@ namespace ASP.Models
             get { return database.GetCollection<LoginViewModel>("Users"); }
         }
 
+        /// <summary>
+        /// Get Account from Db if User name and password is valid
+        /// </summary>
+        /// <param name="name">User Name</param>
+        /// <param name="password">User Password</param>
+        /// <returns>Returns <seealso cref="LoginViewModel"/></returns>
         public LoginViewModel GetAccount(string name, string password)
         {
             var builder = new FilterDefinitionBuilder<LoginViewModel>();
@@ -46,6 +52,28 @@ namespace ASP.Models
 
             return account != null ? account : new LoginViewModel { Name = "null", Password = "null" };
 
+        }
+
+        /// <summary>
+        /// Create new user
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public async Task<bool> Create(LoginViewModel c)
+        {
+            var builder = new FilterDefinitionBuilder<LoginViewModel>();
+            var filter = builder.Empty;
+            if (!String.IsNullOrWhiteSpace(c.Name))
+            {
+                filter = filter & builder.Eq("Name", c.Name);
+            }
+            LoginViewModel temp = Accounts.Find(filter).FirstOrDefault();
+            if (String.IsNullOrEmpty(temp?.Name))
+            {
+                await Accounts.InsertOneAsync(c);
+                return true;
+            }
+            return false;
         }
 
         //private async Task<IEnumerable<LoginViewModel>> GetAccounts(string userName, string password)
@@ -70,10 +98,7 @@ namespace ASP.Models
         //    await Accounts.FindAsync(new BsonDocument("_id", new ObjectId(id)));
         //}
 
-        //private async Task Create(LoginViewModel c)
-        //{
-        //    await Accounts.InsertOneAsync(c);
-        //}
+
 
         //private async Task Update(LoginViewModel c)
         //{

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ASP.Models;
+using ASP.Models.DB;
 using ASP.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 //using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,16 @@ namespace ASP.Controllers
             return View();
         }
 
-        private ActionResult Create()
+        [AllowAnonymous]
+        public async Task<ActionResult> Create()
         {
-            return View();
+            LoginViewModel admin = new LoginViewModel
+            {
+                Name = "admin",
+                Password = "admin"
+            };
+            bool success = await db.Create(admin);
+            return Ok(success ? "success" : "faild");
         }
         [HttpPost]
         private ActionResult Create(LoginViewModel c)

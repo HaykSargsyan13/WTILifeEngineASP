@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using ASP.Models.DB;
 
 namespace ASP
 {
@@ -25,6 +22,7 @@ namespace ASP
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie();
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();

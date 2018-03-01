@@ -1,13 +1,9 @@
 ﻿@using ASP.Models;
-@model IEnumerable<ReportItem>
+@{
+    Layout = "_ReportsLayout";
+}
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GetReports</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <link rel="stylesheet" asp-href-include="lib/bootstrap/dist/css/*.min.css" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
@@ -17,82 +13,19 @@
     </script>
 </head>
 <body>
+    @if (ViewBag.timespan != null)
+    {
+
+        <header>
+            @ViewBag.timespan
+        </header>
+
+    }
     <form asp-action="GetReports" asp-controller="Test">
         <p>Input Date: <input name="date" type="text" id="datepicker"></p>
         <button type="submit">Save</button>
     </form>
-    @if(Model != null &&  Model.Count() != 0)
-    {
-    <table class="table table-bordered table-striped table-sm">
-        <tr>
-            <th>AccountNo</th>
-            <th>TotalMarketValue</th>
-            <th>Cash</th>
-            @foreach (var key in Model.ElementAt<ReportItem>(0).Quantity.Keys)
-            {
-                <th>Quantit-@key</th>
-            }
-            @foreach (var key in Model.ElementAt<ReportItem>(0).MarketValue.Keys)
-            {
-                <th>MarketValue-@key</th>
-            }
-            <th>PercentCash</th>
-            @foreach (var key in Model.ElementAt<ReportItem>(0).Percent.Keys)
-            {
-                <th>Percent-@key</th>
-            }
-            <th>TargetCashAlloc</th>
-            <th>TargetRiskScoreUs</th>
-            <th>TargetRiskScoreIntl</th>
-            <th>TargetIntlAlloc</th>
-            <th>ActualCashAlloc</th>
-            <th>ActualRiskScoreUS</th>
-            <th>ActualRiskScoreIntl</th>
-            <th>ActualIntlAlloc</th>
-            <th>NeedsRebalance</th>
-            <th>NeedsCashRebalance</th>
-
-
-        </tr>
-        @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.AccountNo</td>
-            <td>$@item.TotalMarketValue</td>
-            <td>$@item.Cash</td>
-           
-                    @foreach (var value in item.Quantity.Values)
-                     {
-                    <td>@value</td>
-                     }
-           
-              @foreach (var value in item.MarketValue.Values)
-                     {
-                    <td>$@value</td>
-                     }
-           
-            
-            <td>@item.PercentCash%</td>
-              @foreach (var value in item.Percent.Values)
-                     {
-                    <td>@value%</td>
-                     }
-            <td>@item.TargetCashAlloc</td>
-            <td>@item.TargetRiskScoreUS</td>
-            <td>@item.TargetRiskScoreIntl</td>
-            <td>@item.TargetIntlAlloc</td>
-            <td>@item.ActualCashAlloc</td>
-            <td>@item.ActualRiskScoreUS</td>
-            <td>@item.ActualRiskScoreIntl</td>
-            <td>@item.ActualIntlAlloc</td>
-            <td>@item.NeedsRebalance</td>
-            <td>@item.NeedsCashRebalance</td>
-
-
-        </tr>
-     }
-    </table>
-    }
+   
 </body>
 </html>
 

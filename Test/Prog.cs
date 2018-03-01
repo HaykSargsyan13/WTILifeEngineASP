@@ -1,10 +1,9 @@
-﻿using System;
+﻿using ASP.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Timers;
-using Newtonsoft.Json;
-using ASP.Models;
 
 namespace TestApp
 {
@@ -133,7 +132,7 @@ namespace TestApp
             public static void Main(/*object sender, ElapsedEventArgs elapsedEventArgs*/)
 
 
-        {
+            {
                 var path = $"{ReportPath}/Report/{DateTime.Today:yyyyMMdd}";
 
                 var data = JsonConvert.SerializeObject(Report);
@@ -142,7 +141,6 @@ namespace TestApp
                 var result = SendHttpRequest(path, data);
 
                 Console.WriteLine(result);
-                Console.ReadLine();
             }
 
             private static string SendHttpRequest(string path, string data)
