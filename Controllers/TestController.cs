@@ -23,7 +23,8 @@ namespace ASP.Controllers
     [Authorize]
     public class TestController : Controller
     {
-        private static readonly ConcurrentQueue<Action> concurrentQueue = new ConcurrentQueue<Action>();
+        private readonly SyncQueue<Action> _processQueue;
+
         public TestController()
         {
             var builder = new ConfigurationBuilder()
@@ -31,6 +32,9 @@ namespace ASP.Controllers
             .AddJsonFile("appsettings.json");
             var configuration = builder.Build();
             key = configuration["key"];
+
+            _processQueue = new SyncQueue<Action>();
+            _processQueue.NewItem += (sender, action) => action();
         }
 
         private readonly string key;
@@ -82,8 +86,7 @@ namespace ASP.Controllers
                 {
                     db.Create(items, path);
                 });
-                Connect(action);
-                Run();
+                _processQueue.Enqueue(action);
             }
             return "Ok";
         }
@@ -258,8 +261,7 @@ namespace ASP.Controllers
                  {
                     db.Create(items, $"{reportDate:yyyyMMdd}");
                 });
-            Connect(action);
-            Run();
+            _processQueue.Enqueue(action);
             TimeSpan time = DateTime.Now - dt;
             return View(time);
         }
@@ -286,20 +288,5 @@ namespace ASP.Controllers
         //        }
         //    });
         //}
-
-        private void Run()
-        {
-            Action action;
-            Task.Run(() =>
-                { 
-            if (concurrentQueue.TryDequeue(out action))
-                action();
-            });
-        }
-
-        public void Connect(Action action)
-        {
-            concurrentQueue.Enqueue(action);
-        }
     }
 }

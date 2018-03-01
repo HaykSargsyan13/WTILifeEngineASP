@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace ASP.Infrastructure
 {
-    public class SyncQueue<T>
+    internal class SyncQueue<T>
     {
         private readonly ConcurrentQueue<T> _queue;
         private readonly SemaphoreSlim _semaphore;
@@ -39,8 +37,7 @@ namespace ASP.Infrastructure
                 {
                     try
                     {
-                        T qItem;
-                        while (_queue.TryDequeue(out qItem))
+                        while (_queue.TryDequeue(out var qItem))
                         {
                             OnNewItem(qItem);
                         }
