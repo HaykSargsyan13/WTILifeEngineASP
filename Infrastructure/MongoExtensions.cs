@@ -16,13 +16,7 @@ namespace ASP.Infrastructure
         /// <returns></returns>
         public static bool Contains(this IMongoDatabase db, string collectionName)
         {
-            List<string> collectionNames = new List<string>();
-
-            foreach (BsonDocument collection in db.ListCollectionsAsync().Result.ToListAsync<BsonDocument>().Result)
-            {
-                string name = collection["name"].AsString;
-                collectionNames.Add(name);
-            }
+            List<string> collectionNames = db.CollectionNames();
             return collectionNames.Contains(collectionName);
         }
 

@@ -1,4 +1,7 @@
 ﻿<!DOCTYPE html>
+@{ 
+    Layout = "_BaseReportLayout";
+}
 @model IEnumerable<ReportItem>
 <html>
 <head>
@@ -57,7 +60,7 @@
             {
                 <tr>
                     <td>@item.AccountNo</td>
-                    <td>@item.Time.ToShortDateString()</td>
+                    <td>@((item.Time.AddDays(1)).ToShortDateString())</td>
                     <td>$@item.TotalMarketValue</td>
                     <td>$@item.Cash</td>
 

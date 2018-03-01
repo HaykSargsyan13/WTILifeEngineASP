@@ -7,6 +7,7 @@ using MongoDB.Driver.GridFS;
 using System.IO;
 using System.Threading.Tasks;
 using ASP.Models.ViewModels;
+using Microsoft.Extensions.Configuration;
 
 namespace ASP.Models.DB
 {
@@ -17,7 +18,11 @@ namespace ASP.Models.DB
 
         public DBContext()
         {
-            string connectionString = "mongodb://localhost:27017/WTILifeEngine";
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
+            string connectionString = configuration["ConnectionStrings:UserConnection"];
             var connection = new MongoUrlBuilder(connectionString);
             MongoClient client = new MongoClient(connectionString);
             database = client.GetDatabase(connection.DatabaseName);

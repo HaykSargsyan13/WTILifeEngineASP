@@ -1,13 +1,15 @@
 ﻿using ASP.Infrastructure;
-
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace ASP.Models.DB
 {
@@ -16,20 +18,30 @@ namespace ASP.Models.DB
         IMongoDatabase database;
         IGridFSBucket gridFS;
         const string _dbAccounts = "Accounts";
+        public IEnumerable<string> ReportDatesString { get; set; }
 
         public DBContextReport()
         {
-            string connectionString = "mongodb://localhost:27017/Report";
+            //string connectionString = "mongodb://localhost:27017/Report";
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
+            string connectionString = configuration["ConnectionStrings:ReportConnection"];
             var connection = new MongoUrlBuilder(connectionString);
             MongoClient client = new MongoClient(connectionString);
             database = client.GetDatabase(connection.DatabaseName);
             gridFS = new GridFSBucket(database);
+            ReportDatesString = database.CollectionNames();
         }
 
         private IMongoCollection<DBAccountModel> Accounts
         {
             get {return database.GetCollection<DBAccountModel>(_dbAccounts); }
         }
+
+        
+        
 
         /// <summary>
         /// Add <seealso cref="ReportItem"/> collection to DB 
@@ -82,8 +94,8 @@ namespace ASP.Models.DB
         public async Task<IEnumerable<ReportItem>> AccountReports(string accountNo)
         {
             List<ReportItem> list = new List<ReportItem>();
-            var naems = database.CollectionNames();
-            foreach (string name in naems)
+            var names = database.CollectionNames();
+            foreach (string name in names)
             {
                 if (name == _dbAccounts)
                     continue;

@@ -3,9 +3,9 @@ using ASP.Models;
 using ASP.Models.DB;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 using System;
@@ -23,17 +23,28 @@ namespace ASP.Controllers
     [Authorize]
     public class TestController : Controller
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
         private static readonly ConcurrentQueue<Action> concurrentQueue = new ConcurrentQueue<Action>();
-        private static object _sync = new object();
-
-        public TestController(IHostingEnvironment hostingEnvironment)
+        public TestController()
         {
-            _hostingEnvironment = hostingEnvironment;
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
+            key = configuration["key"];
         }
 
-        private readonly string key = "P45a6pzCMKZQuFkWAkwL";
+        private readonly string key;
         private readonly DBContextReport db = new DBContextReport();
+
+        public async Task<IActionResult> Index()
+        {
+            var date = DateTime.Today;
+            string s = $"{date:yyyyMMdd}";
+            ViewBag.ReportDates = db.ReportDatesString;
+            IEnumerable<ReportItem> items = await db.GetReports(s);
+
+            return View(items);
+        }
 
         #region Get Reports Request
 
@@ -41,7 +52,7 @@ namespace ASP.Controllers
         /// Which call the method <seealso cref="Prog.Main"/> to send the http Requests with Reports collection
         /// </summary>
         [AllowAnonymous]
-        public string Index(string id)
+        public string SendReports(string id)
         {
             TestApp.Prog.Main();
             return "Send";
@@ -127,11 +138,12 @@ namespace ASP.Controllers
         [HttpPost]
         public async Task<IActionResult> AccountReports(string AccountNo)
         {
+            AccountNo = AccountNo.ToUpper();
             DateTime dt = DateTime.Now;
-            var list =  await db.AccountReports(AccountNo);
+            var list = await db.AccountReports(AccountNo);
             TimeSpan time = DateTime.Now - dt;
             ViewBag.timespan = time;
-            //return new JsonResult(list);
+            list = list.OrderBy(o =>  o.Time ).ToArray();
             return View(list);
         }
 
@@ -277,7 +289,6 @@ namespace ASP.Controllers
 
         private void Run()
         {
-
             Action action;
             Task.Run(() =>
                 { 
