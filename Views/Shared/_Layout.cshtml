@@ -87,7 +87,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </li>
 
                         <li>
-                            <a href="inbox.html" class=" hvr-bounce-to-right"><i class="fa fa-inbox nav_icon"></i> <span class="nav-label">Report</span> </a>
+                            <a asp-action="Index" asp-controller="Test" class=" hvr-bounce-to-right"><i class="fa fa-inbox nav_icon"></i> <span class="nav-label">Report</span> </a>
                         </li>
                     </ul>
                 </div>
@@ -232,12 +232,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="clearfix"> </div>
                 </div>
 
-        <ul class="menu">
-            <li>
-                <a class="btn btn-sm btn-primary"
-                   asp-action="Index" asp-controller="Test">Reports</a>
-            </li>
-        </ul>
 
     @if (TempData["message"] != null)
     {
