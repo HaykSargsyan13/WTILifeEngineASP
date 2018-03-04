@@ -13,18 +13,6 @@
     </script>
 </head>
 <body>
-    @if (ViewBag.timespan != null)
-    {
-
-        <header>
-            @ViewBag.timespan
-        </header>
-
-    }
-    <form asp-action="GetReports" asp-controller="Test">
-        <p>Input Date: <input name="date" type="text" id="datepicker"></p>
-        <button type="submit">Save</button>
-    </form>
    
 </body>
 </html>
