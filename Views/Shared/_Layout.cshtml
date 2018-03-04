@@ -117,16 +117,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </form>
                         <h2>Data</h2>
                         <nav class="nav-sidebar">
-                            <ul class="nav tabs">
-                                <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>2018.02<div class="clearfix"></div></a></li>
-                                <li class=""><a href="#tab2" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>2018.01</a></li>
-                                <li class=""><a href="#tab3" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>2017.12</a></li>
-                                <li class=""><a href="#tab4" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>2017.11<div class="clearfix"></div></a></li>
-                                <li class=""><a href="#tab5" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>2017.10</a></li>
-                                <li class=""><a href="#tab5" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>2017.09</a></li>
-                                <li class=""><a href="#tab5" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>2017.08</a></li>
-                                <li class=""><a href="#tab5" data-toggle="tab"><i class="fa fa-pencil-square-o"></i>2017.07</a></li>
-                            </ul>
+                            <form asp-action="GetReports" asp-controller="Test">
+                                <ul class="nav tabs">
+                                    <li class="active"><input name="date" type="submit" value="03/03/2018" id="datepicker"></li>
+                                    <li class="active"><input name="date" type="submit" value="04/03/2018" id="datepicker"></li>
+                                    <li class="active"><input name="date" type="submit" value="05/03/2018" id="datepicker"></li>
+                                    <li class="active"><input name="date" type="submit" value="06/03/2018" id="datepicker"></li>
+                                    <li class="active"><input name="date" type="submit" value="07/03/2018" id="datepicker"></li>
+                                    <li class="active"><input name="date" type="submit" value="08/03/2018" id="datepicker"></li>
+                                    <li class="active"><input name="date" type="submit" value="09/03/2018" id="datepicker"></li>
+                                </ul>
+                            </form>
                         </nav>
                     </div>
                     <!-- tab content -->
