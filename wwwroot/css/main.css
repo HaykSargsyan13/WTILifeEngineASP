@@ -1552,6 +1552,7 @@ label.control-label {
 
 .wrap-login100 {
     width: 25%;
+    height:-50%;
     margin: 3em auto;
     background-color: #fff;
     padding: 2em 1em;
@@ -1588,8 +1589,9 @@ label.control-label {
     }
 
 .login-do {
-    width: 300px;
-    margin-left: -14px;
+    width: 100%;
+    margin-left: 3px;
+    height:40px;
 }
 
     .login-do input[type="submit"] {
@@ -1600,7 +1602,8 @@ label.control-label {
         color: #fff;
         width: 100%;
         -webkit-appearance: none;
-        background: none;
+        background: #d95459;
+        height: 40px;
     }
 
 .login-do a {
@@ -1757,13 +1760,18 @@ label.control-label {
     }
 
 .login-sub {
-    background: #1abc9c;
-    width: 120px;
+    background: #d95459;
 }
 
-    .login-sub:before {
-        background: #d95459;
+    .login-sub:hover {
+        background: #1abc9c;
     }
+
+    #inputlogin{
+        height:40px;
+    }
+
+
 /*--profile--*/
 .profile {
     min-height: 800px;
@@ -3295,9 +3303,12 @@ tr.table-row {
         transition-property: color;
         -webkit-transition-duration: 0.3s;
         transition-duration: 0.3s;
+        height:40px;
+        margin-top:-20px;
+        
     }
 
-        .hvr-shutter-in-horizontal:before {
+        .hvr-shutter-in-horizontal:hover {
             content: "";
             position: absolute;
             z-index: -1;
