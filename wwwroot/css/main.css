@@ -1603,7 +1603,6 @@ label.control-label {
         width: 100%;
         -webkit-appearance: none;
         background: #d95459;
-        height: 40px;
     }
 
 .login-do a {
@@ -1764,13 +1763,19 @@ label.control-label {
 }
 
     .login-sub:hover {
+
         background: #1abc9c;
     }
 
-    #inputlogin{
-        height:40px;
-    }
+#inputlogin {
+    height: 40px;
+    background: #d95459;
+}
 
+    #inputlogin:hover {
+        height: 40px;
+        background: #1abc9c;
+    }
 
 /*--profile--*/
 .profile {
@@ -3308,7 +3313,7 @@ tr.table-row {
         
     }
 
-        .hvr-shutter-in-horizontal:hover {
+        .hvr-shutter-in-horizontal:before {
             content: "";
             position: absolute;
             z-index: -1;
