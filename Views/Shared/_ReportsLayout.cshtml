@@ -27,6 +27,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         }
     </style>
 
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Mainly scripts -->
@@ -130,13 +131,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <nav class="nav-sidebar">
                             <form asp-action="GetReports" asp-controller="Test">
                                 <ul class="nav tabs">
-                                    <li class="active"><input name="date" type="submit" value="03/03/2018" id="datepicker"></li>
-                                    <li class="active"><input name="date" type="submit" value="04/03/2018" id="datepicker"></li>
-                                    <li class="active"><input name="date" type="submit" value="05/03/2018" id="datepicker"></li>
-                                    <li class="active"><input name="date" type="submit" value="06/03/2018" id="datepicker"></li>
-                                    <li class="active"><input name="date" type="submit" value="07/03/2018" id="datepicker"></li>
-                                    <li class="active"><input name="date" type="submit" value="08/03/2018" id="datepicker"></li>
-                                    <li class="active"><input name="date" type="submit" value="09/03/2018" id="datepicker"></li>
+                                    <li>
+                                        <p><input name="date" type="text" id="datepicker"></p>
+                                    </li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><input type="submit" name="data" id="datepicker" /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
+                                    <li><br /></li>
                                 </ul>
                             </form>
                         </nav>
@@ -193,7 +206,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                     <th>MarketValue-@key</th>
                                                 }
                                                 <th>PercentCash</th>
-                                                
+
                                             </tr>
                                             @foreach (var item in Model)
                                             {
@@ -204,7 +217,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                     }
 
                                                     <td>@item.PercentCash%</td>
-                                                
+
                                                 </tr>
                                             }
                                         </table>
