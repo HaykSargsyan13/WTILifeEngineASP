@@ -1,0 +1,25 @@
+﻿@using ASP.Models;
+@{
+    Layout = "_ReportsLayout";
+}
+<html lang="en">
+<body>
+    @if (ViewBag.Timer != null)
+    {
+
+        <header>
+            Elapsed time   @ViewBag.Timer
+        </header>
+        <header>
+           Total Count   @ViewBag.Count
+        </header>
+
+    }
+    <form asp-action="GetReports" asp-controller="Reports">
+        <p>Input Date: <input name="date" type="text" id="datepicker"></p>
+        <button type="submit">Save</button>
+    </form>
+
+</body>
+</html>
+

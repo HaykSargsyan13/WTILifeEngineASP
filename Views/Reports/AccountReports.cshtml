@@ -4,15 +4,17 @@
 }
 <body>
     <h2>@ViewData["Title"]</h2>
-    @if (ViewBag.timespan != null)
-    {
-        <div>@ViewBag.timespan</div>
 
-    }
-    <form asp-action="AccountReports" asp-controller="Test">
+    <header>
+        Elapsed time   @ViewBag.Timer
+    </header>
+    <header>
+        Total Count   @ViewBag.Count
+    </header>
+    <form asp-action="AccountReports" asp-controller="Reports">
         <div>
             <div class="form-group">
-                <label>Price</label>
+                <label>AccountNo</label>
                 <input id="AccountNo" name="AccountNo" class="form-control" />
             </div>
             <div class="form-group">

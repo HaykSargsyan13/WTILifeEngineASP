@@ -17,15 +17,16 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ASP.Controllers
 {
     [Authorize]
-    public class TestController : Controller
+    public class ReportsController : Controller
     {
         private readonly SyncQueue<Action> _processQueue;
 
-        public TestController()
+        public ReportsController()
         {
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -110,15 +111,34 @@ namespace ASP.Controllers
         [HttpPost]
         public async Task<IActionResult> GetReports(DateTime date)
         {
-            if (date > DateTime.Today)
+            Stopwatch timer = Stopwatch.StartNew();
+             if (date > DateTime.Today)
                 return View(null);
 
             string s = $"{date:yyyyMMdd}";
 
             IEnumerable<ReportItem> items = await db.GetReports(s);
-
+            timer.Stop();
+            ViewBag.Timer = timer.Elapsed.TotalMilliseconds;
+            ViewBag.Count = items.Count();
             return View(items);
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> TestGetReports(DateTime date)
+        //{
+        //    Stopwatch timer = Stopwatch.StartNew();
+        //   // if (date > DateTime.Today)
+        //     //   return View("GetReports",null);
+
+        //    string s = $"{date:yyyyMMdd}";
+
+        //    IEnumerable<ReportItem> items = await db.GetReports(s);
+        //    timer.Stop();
+        //    ViewBag.Timer = timer.Elapsed.TotalMilliseconds;
+        //    ViewBag.Count = items.Count();
+        //    return View("GetReports",items);
+        //}
 
         #endregion
 
@@ -142,13 +162,25 @@ namespace ASP.Controllers
         public async Task<IActionResult> AccountReports(string AccountNo)
         {
             AccountNo = AccountNo.ToUpper();
-            DateTime dt = DateTime.Now;
+            Stopwatch timer = Stopwatch.StartNew();
             var list = await db.AccountReports(AccountNo);
-            TimeSpan time = DateTime.Now - dt;
-            ViewBag.timespan = time;
+            ViewBag.Timer = timer.ElapsedMilliseconds;
+            ViewBag.Count = list.Count();
             list = list.OrderBy(o =>  o.Time ).ToArray();
             return View(list);
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> TestAccountReports(string AccountNo)
+        //{
+        //    Stopwatch timer = Stopwatch.StartNew();
+        //    var list = await db.TestAccountReports(AccountNo);
+        //    timer.Stop();
+        //    ViewBag.Timer = timer.ElapsedMilliseconds;
+        //    ViewBag.Count = list.Count();
+        //    list = list.OrderBy(o => o.Time).ToArray();
+        //    return View("AccountReports",list);
+        //}
 
         #endregion
 
@@ -265,6 +297,104 @@ namespace ASP.Controllers
             TimeSpan time = DateTime.Now - dt;
             return View(time);
         }
+
+        //public IActionResult TestUpload(IFormFile file)
+        //{
+        //    DateTime dt = DateTime.Now;
+        //    var name = file.FileName;
+        //    name = name.Substring(name.IndexOf('_') + 1);
+        //    name = name.Substring(0, name.LastIndexOf('.'));
+        //    name = name.Replace("_", "-");
+        //    DateTime reportDate = DateTime.Parse(name);
+        //    long size = file.Length;
+        //    List<ReportItem> items = new List<ReportItem>();
+        //    using (var streamReader = new StreamReader(file.OpenReadStream()))// System.IO.File.OpenText(path))
+        //    {
+        //        string line;
+        //        while ((line = streamReader.ReadLine()) != null)
+        //        {
+        //            var data = line.Split(new[] { "," }, StringSplitOptions.None);
+        //            data = data.Select(s => s.Trim('\"', '$', '%')).ToArray();
+
+        //            string accauntNo = data[0];
+        //            if (string.IsNullOrEmpty(accauntNo) || accauntNo == "AccountNo")
+        //                continue;
+        //            decimal.TryParse(data[1], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal totalMarketValue);
+        //            decimal.TryParse(data[2], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal cash);
+        //            decimal.TryParse(data[3], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal quantity1);
+        //            decimal.TryParse(data[4], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal quantity2);
+        //            decimal.TryParse(data[5], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal quantity3);
+        //            decimal.TryParse(data[6], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal quantity4);
+        //            decimal.TryParse(data[7], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal marketValue1);
+        //            decimal.TryParse(data[8], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal marketValue2);
+        //            decimal.TryParse(data[9], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal marketValue3);
+        //            decimal.TryParse(data[10], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal marketValue4);
+        //            decimal.TryParse(data[11], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percentCash);
+        //            decimal.TryParse(data[12], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percent1);
+        //            decimal.TryParse(data[13], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percent2);
+        //            decimal.TryParse(data[14], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percent3);
+        //            decimal.TryParse(data[15], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal percent4);
+        //            decimal.TryParse(data[16], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal targetCashAlloc);
+        //            decimal.TryParse(data[17], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal targetRiskScoreUS);
+        //            decimal.TryParse(data[18], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal targetRiskScoreIntl);
+        //            decimal.TryParse(data[19], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal targetIntlAlloc);
+        //            decimal.TryParse(data[20], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal actualCashAlloc);
+        //            decimal.TryParse(data[21], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal actualRiskScoreUS);
+        //            decimal.TryParse(data[22], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal actualRiskScoreIntl);
+        //            decimal.TryParse(data[23], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal actualIntlAlloc);
+        //            bool.TryParse(data[24], out bool needsRebalance);
+        //            bool.TryParse(data[25], out bool needsCashRebalance);
+        //            var item = new ReportItem
+        //            {
+        //                AccountNo = accauntNo,
+        //                TotalMarketValue = totalMarketValue,
+        //                Cash = cash,
+        //                Quantity = new Dictionary<string, decimal>
+        //                {
+        //                    {"VTI" ,  quantity1},
+        //                    {"BND" ,  quantity2},
+        //                    {"VXUS" ,  quantity3},
+        //                    {"BNDX" ,  quantity4},
+        //                },
+        //                MarketValue = new Dictionary<string, decimal>
+        //                {
+        //                    {"VTI" ,  marketValue1},
+        //                    {"BND" ,  marketValue2},
+        //                    {"VXUS" ,  marketValue3},
+        //                    {"BNDX" ,  marketValue4},
+        //                },
+        //                PercentCash = percentCash,
+        //                Percent = new Dictionary<string, decimal>
+        //                {
+        //                    {"VTI" ,  percent1 },
+        //                    {"BND" ,  percent2 },
+        //                    {"VXUS" ,  percent3},
+        //                    {"BNDX" ,  percent4},
+        //                },
+        //                TargetCashAlloc = targetCashAlloc,
+        //                TargetRiskScoreUS = targetRiskScoreUS,
+        //                TargetRiskScoreIntl = targetRiskScoreIntl,
+        //                TargetIntlAlloc = targetIntlAlloc,
+        //                ActualCashAlloc = actualCashAlloc,
+        //                ActualRiskScoreUS = actualRiskScoreUS,
+        //                ActualRiskScoreIntl = actualRiskScoreIntl,
+        //                ActualIntlAlloc = actualIntlAlloc,
+        //                NeedsRebalance = needsRebalance,
+        //                NeedsCashRebalance = needsCashRebalance,
+        //                Time = reportDate
+
+        //            };
+        //            items.Add(item);
+        //        }
+        //    }
+        //    var action = new Action(() =>
+        //    {
+        //        db.TestCreate(items);
+        //    });
+        //    _processQueue.Enqueue(action);
+        //    TimeSpan time = DateTime.Now - dt;
+        //    return View("UploadFile",time);
+        //}
 
         #endregion
 
