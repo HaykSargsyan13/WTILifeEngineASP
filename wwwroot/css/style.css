@@ -18,12 +18,20 @@ p {
     margin: 0;
 }
 
-html, body {
+html {
     font-family: 'Montserrat-Regular';
     font-size: 100%;
     background: #F3F3F4;
     overflow-x: hidden;
 }
+
+body {
+    font-size: 19px;
+    font-family: 'Montserrat-Regular';
+    background: #F3F3F4;
+    overflow-x: hidden;
+}
+
 
 @font-face {
     font-family: 'Montserrat-Regular';
