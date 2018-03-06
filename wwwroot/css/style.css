@@ -1,4 +1,4 @@
-﻿/*
+/*
 Author: W3layout
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
@@ -31,7 +31,6 @@ body {
     background: #F3F3F4;
     overflow-x: hidden;
 }
-
 
 @font-face {
     font-family: 'Montserrat-Regular';
@@ -1377,7 +1376,6 @@ i.fa.fa-twitter {
     box-shadow: none;
     outline: none;
     border-radius: 0px;
-    font-family: 'Muli-Regular';
 }
 
     .form-control:focus {
@@ -1419,19 +1417,19 @@ input#disabledTextInput, select#disabledSelect {
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
 
-.form-control1 {
-    border: 1px solid #e0e0e0;
+.form-control {
+    border: 2px solid #e0e0e0;
     padding: 5px 8px;
     color: #616161;
     width: 100%;
     font-size: 0.85em;
     font-weight: 300;
-    height: 40px;
+    height: 50px;
     -webkit-appearance: none;
     outline: none;
-    font-family: 'Muli-Regular';
     background: none;
     box-shadow: none !important;
+    margin-top:-14%;
 }
 
 .input-lg {
@@ -1567,7 +1565,8 @@ label.control-label {
 }
 
 .login-bottom {
-    width: 40%;
+    width: 300px;
+    height: 35%;
     margin: 3em auto;
     background-color: #fff;
     padding: 2em 1em;
@@ -1587,6 +1586,8 @@ label.control-label {
     border: 1px solid #E9E9E9;
     margin-bottom: 2em;
     padding: 0.5em 1em;
+    margin-right: 15px;
+    width:240px;
 }
 
     .login-mail i {
@@ -1602,17 +1603,18 @@ label.control-label {
         font-family: 'Muli-Regular';
     }
 
-.login-do input[type="submit"] {
-    border: none;
-    outline: none;
-    font-size: 1em;
-    padding: 0.5em 1em;
-    color: #fff;
-    width: 100%;
-    -webkit-appearance: none;
-    cursor: pointer;
-    background: none;
-}
+    .login-do input[type="submit"] {
+        border: none;
+        outline: none;
+        font-size: 1em;
+        padding: 0.5em 1em;
+        color: #fff;
+        width: 220px;
+        -webkit-appearance: none;
+        cursor: pointer;
+        background: none;
+        margin-right: 5px;
+    }
 
 .login-do a {
     font-size: 0.9em;
@@ -1728,7 +1730,8 @@ label.control-label {
     transition-property: color;
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
-    width: 100%;
+    width: 220px;
+    margin-left:-15px;
 }
 
     .hvr-shutter-in-horizontal:before {
@@ -3215,6 +3218,11 @@ tr.table-row {
         width: 48.6%;
     }
 
+        .mailbox-contentH1{
+            text-align:center;
+        }
+        
+        
         .col-md:nth-child(3), .col-md:nth-child(6),
         .col-md:nth-child(9), .col-md:nth-child(12) {
             margin-right: 1%;
@@ -3340,7 +3348,7 @@ tr.table-row {
 
 .form-control {
     border-radius: 0;
-    padding: 0.6rem 0.75rem;
+    padding: 0.6rem 3rem;
 }
 
     .form-control:focus {
