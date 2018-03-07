@@ -17,6 +17,8 @@ namespace ASP.Models.DB
     {
         IMongoDatabase database;
         IGridFSBucket gridFS;
+        //IMongoDatabase Testdatabase;
+        //IGridFSBucket TestgridFS;
         const string _dbAccounts = "Accounts";
         public IEnumerable<string> ReportDatesString { get; set; }
 
@@ -33,6 +35,11 @@ namespace ASP.Models.DB
             database = client.GetDatabase(connection.DatabaseName);
             gridFS = new GridFSBucket(database);
             ReportDatesString = database.CollectionNames();
+            //string testconnectionString = "mongodb://localhost:27017/TestRepo";
+            //var testconnection = new MongoUrlBuilder(testconnectionString);
+            //MongoClient testClinet = new MongoClient(testconnectionString);
+            //Testdatabase = client.GetDatabase(testconnection.DatabaseName);
+            //TestgridFS = new GridFSBucket(Testdatabase);
         }
 
         private IMongoCollection<DBAccountModel> Accounts
@@ -40,8 +47,35 @@ namespace ASP.Models.DB
             get {return database.GetCollection<DBAccountModel>(_dbAccounts); }
         }
 
-        
-        
+        //public void TestCreate(IEnumerable<ReportItem> items)
+        //{
+        //    TestReports.InsertMany(items);
+        //}
+
+        #region Test
+
+        //private IMongoCollection<ReportItem> TestReports
+        //{
+        //    get { return Testdatabase.GetCollection<ReportItem>("Reports"); }
+        //}
+
+        //public async Task<IEnumerable<ReportItem>> TestGetReports(DateTime dt)
+        //{
+
+        //    var builder = new FilterDefinitionBuilder<ReportItem>();
+        //    var filter = builder.Empty;
+        //    //  long count = Reports.Count(filter);
+        //    return await TestReports.Find(o => o.Time.Date == dt.Date).ToListAsync();
+        //}
+
+        //public async Task<IEnumerable<ReportItem>> TestAccountReports(string accountNo)
+        //{
+        //    var reportItem = await TestReports.Find(x => x.AccountNo == accountNo).ToListAsync();
+
+        //        return reportItem;
+        //}
+
+        #endregion
 
         /// <summary>
         /// Add <seealso cref="ReportItem"/> collection to DB 
