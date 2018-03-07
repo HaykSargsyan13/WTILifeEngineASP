@@ -25,7 +25,7 @@ namespace ASP.Controllers
     {
         private readonly SyncQueue<Action> _processQueue;
 
-        public TestController()
+        public TestController(IConfiguration config)
         {
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())

@@ -28,11 +28,11 @@ namespace ASP.Controllers
         public ActionResult Login(string returnUrl)
         {
             if (!User.Identity.IsAuthenticated)
-            { 
-                return View(new LoginViewModel
             {
-                ReturnUrl = returnUrl
-            });
+                return View(new LoginViewModel
+                {
+                    ReturnUrl = returnUrl
+                });
             }
             else
             {
@@ -52,14 +52,16 @@ namespace ASP.Controllers
         {
             if (ModelState.IsValid)
             {
-                var account =  db.GetAccount(loginModel.Name, loginModel.Password);
+                var account = db.GetAccount(loginModel.Name, loginModel.Password);
                 if (account.Name == loginModel.Name && account.Password == loginModel.Password)
                 {
                     await Authenticate(loginModel.Name);
                     return Redirect(loginModel.ReturnUrl);
                 }
+
                 return View();
             }
+
             ModelState.AddModelError("", "Invalid name or password");
             return View();
         }
@@ -70,7 +72,8 @@ namespace ASP.Controllers
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
             };
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "ApplicationCookie",
+                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
             var authProperties = new AuthenticationProperties
             {
@@ -78,10 +81,8 @@ namespace ASP.Controllers
 
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
             };
-            await HttpContext.SignInAsync(
-    CookieAuthenticationDefaults.AuthenticationScheme,
-    new ClaimsPrincipal(claimsIdentity),
-    authProperties);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), authProperties);
         }
 
         public async Task<RedirectResult> Logout(string returnUrl = "/")
